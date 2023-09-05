@@ -12,11 +12,11 @@ services:
 
   vueapi:
     build:
-      context: ./vueapi
+      context: ./vue
     ports:
       - "8080:8080"
     volumes:
-      - ./vueapi:/app
+      - ./vue:/app
     command: bash -c "npm install && npm run serve"
     networks:
       - mynet
