@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tworzenie Wiadomości</title>
+</head>
+<body>
+    <h1>Tworzenie Wiadomości</h1>
+    <form id="messageForm">
+        <label for="content">Treść wiadomości:</label>
+        <input type="text" id="content" name="content">
+        <button type="submit">Wyślij</button>
+    </form>
+
+    <script>
+        document.getElementById('messageForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const content = document.getElementById('content').value;
+
+            fetch('http://127.0.0.1:8000/api/message', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message: content })
+            })
+            .then(response => {
+			console.log(response);
+                if (!response.ok) {
+                    throw new Error('Wystąpił błąd sieciowy');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Udało się utworzyć wiadomość:', data);
+            })
+            .catch(error => {
+                console.error('Błąd:', error);
+            });
+        });
+    </script>
+</body>
+</html>
